@@ -87,29 +87,36 @@ if uploaded_file is not None:
     # MFCCsの平均値を表示
     mfccs_df = pd.DataFrame({"MFCCs": [f"{val:.4f}" for val in mfccs.mean(axis=1)]})
     mfccs_df.index = mfccs_df.index + 1  # インデックスを1から開始に変更
-    st.write("MFCCs (Mel-frequency cepstral coefficients): 音声のテクスチャやタイミングの情報をキャッチする特徴量です。")
+    st.subheader("MFCCs (Mel-frequency cepstral coefficients)")
+    st.write("音声のテクスチャやタイミングの情報をキャッチする特徴量です。")
     st.table(mfccs_df)
     
     # クロマ特徴量の平均値を表示
     chroma_df = pd.DataFrame({"Chroma": [f"{val:.4f}" for val in chroma.mean(axis=1)]})
     chroma_df.index = chroma_df.index + 1  # インデックスを1から開始に変更
-    st.write("Chroma: 12の異なるピッチクラスの強度を示す特徴量です。")
+    st.subheader("Chroma")
+    st.write("12の異なるピッチクラスの強度を示す特徴量です。")
     st.table(chroma_df)
     
     # スペクトルのコントラストの平均値を表示
     contrast_df = pd.DataFrame({"Spectral Contrast": [f"{val:.4f}" for val in contrast.mean(axis=1)]})
     contrast_df.index = contrast_df.index + 1  # インデックスを1から開始に変更
-    st.write("Spectral Contrast: スペクトルのピークとバレーの違いを示す特徴量です。")
+    st.subheader("Spectral Contrast")
+    st.write("スペクトルのピークとバレーの違いを示す特徴量です。")
     st.table(contrast_df)
     
     # Zero Crossing Rateの平均値を表示
     zcr_df = pd.DataFrame({"Zero Crossing Rate": [f"{np.mean(zcr):.4f}"]})
-    st.write("Zero Crossing Rate: 音声信号がゼロを越える回数を示す特徴量です。")
+    zcr_df.index = zcr_df.index + 1  # インデックスを1から開始に変更
+    st.subheader("Zero Crossing Rate")
+    st.write("音声信号がゼロを越える回数を示す特徴量です。")
     st.table(zcr_df)
     
     # Spectral Roll-offの平均値を表示
     rolloff_df = pd.DataFrame({"Spectral Roll-off": [f"{np.mean(rolloff):.4f}"]})
-    st.write("Spectral Roll-off: この周波数以下にスペクトルの指定された割合が存在するという特徴量です。")
+    rolloff_df.index = rolloff_df.index + 1  # インデックスを1から開始に変更
+    st.subheader("Spectral Roll-off")
+    st.write("この周波数以下にスペクトルの指定された割合が存在するという特徴量です。")
     st.table(rolloff_df)
 
 # Copyright
