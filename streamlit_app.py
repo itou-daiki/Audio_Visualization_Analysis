@@ -113,9 +113,10 @@ def display_audio_insights(y, sr):
 
 if uploaded_file is not None:
     y, sr = librosa.load(uploaded_file, sr=None)
+    display_audio_insights(y, sr)
     visualize_audio(y, sr)
     analyze_audio_features(y, sr)
-    display_audio_insights(y, sr)
+
 
 # Copyright
 st.markdown('© 2022-2023 Daiki Ito. All Rights Reserved.')
