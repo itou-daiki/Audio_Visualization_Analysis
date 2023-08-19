@@ -27,14 +27,12 @@ def display_features(df, title, description):
 def visualize_audio(y, sr):
     # 音声の波形
     st.subheader("音声の波形")
-    st.write("このグラフは、時間に対する音声の振幅を示しています。")
     plt.figure(figsize=(10, 4))
     librosa.display.waveshow(y, sr=sr)
     st.pyplot(plt)
 
     # スペクトログラム
     st.subheader("スペクトログラム")
-    st.write("このグラフは、時間に対する周波数の強度を示しています。")
     D = librosa.amplitude_to_db(np.abs(librosa.stft(y)), ref=np.max)
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(D, sr=sr, x_axis='time', y_axis='log')
@@ -43,7 +41,6 @@ def visualize_audio(y, sr):
 
     # メルスペクトログラム
     st.subheader("メルスペクトログラム")
-    st.write("このグラフは、時間に対するメル周波数の強度を示しています。")
     M = librosa.feature.melspectrogram(y=y, sr=sr)
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(librosa.power_to_db(M, ref=np.max), sr=sr, y_axis='mel', x_axis='time')
@@ -52,7 +49,6 @@ def visualize_audio(y, sr):
 
     # クロマグラム
     st.subheader("クロマグラム")
-    st.write("このグラフは、時間に対する12の異なるピッチクラスの強度を示しています。")
     C = librosa.feature.chroma_cqt(y=y, sr=sr)
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(C, sr=sr, x_axis='time', y_axis='chroma')
@@ -61,7 +57,6 @@ def visualize_audio(y, sr):
 
     # トーンネットワーク
     st.subheader("トーンネットワーク")
-    st.write("このグラフは、時間に対する6つのトーンネットワークの強度を示しています。")
     T = librosa.feature.tonnetz(y=y, sr=sr)
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(T, sr=sr, x_axis='time', y_axis='tonnetz')
@@ -95,10 +90,32 @@ def analyze_audio_features(y, sr):
     rolloff_df = pd.DataFrame({"Spectral Roll-off": [f"{np.mean(rolloff):.4f}"]})
     display_features(rolloff_df, "Spectral Roll-off", "この周波数以下にスペクトルの指定された割合が存在するという特徴量です。")
 
+# 音声のインサイトを表示
+def display_audio_insights(y, sr):
+    st.subheader("音声のインサイト")
+
+    # 音声の長さ
+    duration = librosa.get_duration(y=y, sr=sr)
+    st.write(f"音声の長さ: {duration:.2f} 秒")
+
+    # 平均的な音量
+    avg_volume = np.mean(np.abs(y))
+    st.write(f"平均的な音量: {avg_volume:.4f}")
+
+    # 最大音量
+    max_volume = np.max(np.abs(y))
+    st.write(f"最大音量: {max_volume:.4f}")
+
+    # 平均的なピッチ
+    pitches, magnitudes = librosa.core.piptrack(y=y, sr=sr)
+    avg_pitch = np.mean(pitches[pitches > 0])
+    st.write(f"平均的なピッチ: {avg_pitch:.4f} Hz")
+
 if uploaded_file is not None:
     y, sr = librosa.load(uploaded_file, sr=None)
     visualize_audio(y, sr)
     analyze_audio_features(y, sr)
+    display_audio_insights(y, sr)
 
 # Copyright
 st.markdown('© 2022-2023 Daiki Ito. All Rights Reserved.')
