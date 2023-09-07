@@ -14,7 +14,7 @@ st.caption("Created by Daiki Ito")
 st.subheader("音声の多角的な可視化と特徴点の算出")
 
 # 音声ファイルのアップロード
-uploaded_file = st.file_uploader("音声ファイルをアップロードしてください", type=["wav", "mp3"])
+uploaded_file = st.file_uploader("音声ファイルをアップロードしてください", type=["wav", "mp3","m4a"])
 
 # 音声の特徴点をテーブル形式で表示
 def display_features(df, title, description):
