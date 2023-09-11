@@ -17,7 +17,7 @@ st.caption("Created by Daiki Ito")
 st.subheader("音声の多角的な可視化と特徴点の算出")
 
 # 音声ファイルのアップロード
-uploaded_file = st.file_uploader
+uploaded_file = st.file_uploader("音声ファイルをアップロードしてください", type=["wav", "mp3","m4a"])
 if uploaded_file:
     # Convert m4a to wav if needed
     if uploaded_file.name.endswith('.m4a'):
@@ -25,7 +25,6 @@ if uploaded_file:
         temp_wav = "temp_converted.wav"
         sf.write(temp_wav, y, sr)
         uploaded_file = open(temp_wav, 'rb')
-("音声ファイルをアップロードしてください", type=["wav", "mp3","m4a"])
 
 # 音声の特徴点をテーブル形式で表示
 def display_features(df, title, description):
