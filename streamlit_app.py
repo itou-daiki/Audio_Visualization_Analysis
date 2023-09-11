@@ -6,6 +6,8 @@ import librosa.display
 import pandas as pd
 import os
 import soundfile as sf
+from pydub import AudioSegment
+
 
 
 # Streamlitのページ設定
@@ -19,11 +21,11 @@ st.subheader("音声の多角的な可視化と特徴点の算出")
 # 音声ファイルのアップロード
 uploaded_file = st.file_uploader("音声ファイルをアップロードしてください", type=["wav", "mp3","m4a"])
 if uploaded_file:
-    # Convert m4a to wav if needed
+    # Convert m4a to wav if needed using pydub
     if uploaded_file.name.endswith('.m4a'):
-        y, sr = librosa.load(uploaded_file, sr=None)
+        audio = AudioSegment.from_file(uploaded_file, format="m4a")
         temp_wav = "temp_converted.wav"
-        sf.write(temp_wav, y, sr)
+        audio.export(temp_wav, format="wav")
         uploaded_file = open(temp_wav, 'rb')
 
 # 音声の特徴点をテーブル形式で表示
